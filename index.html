@@ -33,6 +33,64 @@ and open the template in the editor.
             <b>Eclipse Update Manager</b> Go to the update manager (Help > Install New Software) and add:
                 http://pydev.org/updates and follow the Eclipse steps.            
         </p>
+        <p>
+            <b>Creating a Python Project In Eclipse</b> Right mouse click in the left pane (project explorer) 
+            and select "New --> Project" or select from menu "File -> New --> Project ". In the dialog box,
+            there should be a folder icon for "Pydev".If not, then you don't have PyDev plugin 
+            installed. Under PyDev, there should be a "PyDev" project item. Select that, and click next.
+            In the next screen, give the name of the project (no spaces), and select "Create 'src' folder
+            and add it to PYTHONPATH". For a simple project, this is all that is needed. You can then 
+            click on "Finish" button.
+        </p>
+        <p>
+            <b>Creating a Python Script</b> Expand you project in the left pane (project explorer), 
+            then expand the "src" folder. Right mouse click on the "src" folder and select from the 
+            popup menu "New --> PyDev Module". If "Pydev Module" is not available as a choice, then select
+            "New --> Other --> PyDev --> PyDev Module". Press "Next" button. Give package name if necessary
+            (e.g. hw1), and name of the module in snake case (all lower case and underscrores no py suffix,
+            e.g. build_word_list") and click "Finish". You will be prompted for the template type.
+            Select "Module CLI argparse". This will create a rather verbose generic Command Line Intepreter
+            python script. It will need to be modified for use.
+            
+            The relevant code is:
+            <pre>
+            from argparse import ArgumentParser
+            from argparse import RawDescriptionHelpFormatter
+
+            parser = ArgumentParser(description=program_license, formatter_class=RawDescriptionHelpFormatter)
+            parser.add_argument("-r", "--recursive", dest="recurse", action="store_true", help="recurse into subfolders [default: %(default)s]")
+            parser.add_argument("-v", "--verbose", dest="verbose", action="count", help="set verbosity level [default: %(default)s]")
+            parser.add_argument("-i", "--include", dest="include", help="only include paths matching this regex pattern. Note: exclude is given preference over include. [default: %(default)s]", metavar="RE" )
+            parser.add_argument("-e", "--exclude", dest="exclude", help="exclude paths matching this regex pattern. [default: %(default)s]", metavar="RE" )
+            parser.add_argument('-V', '--version', action='version', version=program_version_message)
+            parser.add_argument(dest="paths", help="paths to folder(s) with source file(s) [default: %(default)s]", metavar="path", nargs='+')
+
+            # Process arguments
+            args = parser.parse_args()
+
+
+            # Each call to add_argument specified both the short and long forms for argument ("-v" and "--verbose") 
+            # the member variable that is updated ("verbose" means args.verbose will hold the value). 
+            # how is the value interpreted - action='store' and action=store_true are common uses
+            #            'store' saves the string value, "store_true" will save a boolean True if the flag
+            #           is found.
+            # You dont need an explicit "-h" or "--help" option. I believe that is handled automatically.
+            # So are errors in argument.
+            #
+            # Once parsed (parsed_args = parser.parse_args), the variables are available as
+            # members of the returned object, i.e. parsed_args.verbose
+            #
+
+            </pre>
+            
+            <br><br>
+            <pre>
+            If using python 2.7 use the argparse package to parse command line arguments. 
+            Older version is optparse. argparse is better:   
+                <a href="https://code.google.com/p/argparse/">https://code.google.com/p/argparse/</a>
+            </pre>    
+        </p>
+        
         <p><b>Google of App Engine</b> <a href="https://developers.google.com/appengine/docs/python/">https://developers.google.com/appengine/docs/python/</a>
         </p>
         
